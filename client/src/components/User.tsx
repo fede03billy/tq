@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 
 interface User {
   id: string;
-  name: string;
+  username: string;
   group: string;
   upvotes: number;
 }
@@ -14,6 +14,7 @@ const User: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
+    try {
     fetch(`http://localhost:3000/users/${id}`,{
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token')
@@ -21,13 +22,17 @@ const User: React.FC = () => {
     })
       .then((response) => response.json())
       .then((data) => setUser(data));
+  } catch (e: any) {
+    console.error(e.message);
+  }
+  
   }, [id]);
 
   return (
     <>
       {user ? (
         <div>
-          <h1>Nome: {user.name}</h1>
+          <h1>Name: {user.username}</h1>
           <p>Upvotes: {user.upvotes}</p>
         </div>
       ) : (

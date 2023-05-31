@@ -16,8 +16,13 @@ const Welcome: React.FC = () => {
     setLogin(!login);
   };
 
-  const saveToken = (id: string) => {
-    localStorage.setItem('token', id); // TODO: save the actual token and not the id
+  const saveToken = (token:string) => {
+    localStorage.setItem('tq_token', token); // TODO: save the actual token and not the id
+  }
+
+  const redirectUser = (id: string, token: string) => {
+    saveToken(token);
+    navigate(`/user/${id}`);
   }
 
   const handleRegister = async (e: React.FormEvent) => {
@@ -41,17 +46,23 @@ const Welcome: React.FC = () => {
         })
       }).then(res => res.json())
       .then(data => {
-        console.info("Redirecting...")
-        saveToken(data._id);
-        navigate(`/users/${data._id}`)
+        if (data.statusCode === 406) {
+          alert("Username already exists");
+          // empty the username field
+          const usernameInput: HTMLInputElement = document.getElementById('username') as HTMLInputElement;
+          usernameInput.value = '';
+          return;
+        } else if (data){
+          redirectUser(data.id, data.access_token);
+        }
       });
     }
 
   }
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    fetch('http://localhost:3000/auth/login', {
+    await fetch('http://localhost:3000/auth/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -64,9 +75,15 @@ const Welcome: React.FC = () => {
     )})
     .then(res => res.json())
     .then(data => {
-        console.log(data);
+      if (data.statusCode === 401) {
+        alert("Incorrect username or password");
+        // empty the password field
+        const passwordInput: HTMLInputElement = document.getElementById('password') as HTMLInputElement;
+        passwordInput.value = '';
+        return;
+      }
+      redirectUser(data.id, data.access_token);
     });
-    console.log("login");
   };
 
   return (
@@ -74,8 +91,8 @@ const Welcome: React.FC = () => {
       <div className='flex flex-col justify-start items-center h-screen'>
         <h1>TQ</h1>
         <form className='login-form flex flex-col justify-start items-start'>
-          <input type='text' placeholder='Username' ref={usernameRef} />
-          <input type='password' placeholder='Password' ref={passwordRef} />
+          <input type='text' id='username' placeholder='Username' ref={usernameRef} />
+          <input type='password' id='password' placeholder='Password' ref={passwordRef} />
           {!login &&<input type='password' placeholder='Confirm Password' ref={confirmPasswordRef} />}
           {login ? <button onClick={handleLogin}>Login</button>:
           <button onClick={handleRegister}>Register</button>}
