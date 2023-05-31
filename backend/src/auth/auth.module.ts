@@ -14,7 +14,7 @@ const jwtSecret = 'XXXXXX'; // Get this from .env file
     PassportModule,
     JwtModule.register({
       secret: jwtSecret,
-      signOptions: { expiresIn: '60s' },
+      signOptions: { expiresIn: '60s' }, // TODO: Increase TTL of the token to 7d
     }),
   ],
   providers: [AuthService, JwtStrategy],

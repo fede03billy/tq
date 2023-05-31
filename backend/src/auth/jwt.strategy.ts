@@ -17,7 +17,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: any) {
-    const user = await this.authService.validateUser(payload); // TODO: this function currently validate a couple username&password, it doesn't actually validate the JWT, substitute it with one that does
+    const user = await this.authService.validateUser(payload);
     if (!user) {
       throw new UnauthorizedException();
     }
