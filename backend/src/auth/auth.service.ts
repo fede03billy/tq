@@ -13,7 +13,10 @@ export class AuthService {
     const user = await this.usersService.findOneByUsername(payload.username);
     if (user && user.username === payload.username) {
       // TODO: add password hash check
-      if (user.password === payload.password) {
+      if (user.password && user.password === payload.password) {
+        const { password, ...result } = user;
+        return result;
+      } else if (user.id  && user.id === payload.id) {
         const { password, ...result } = user;
         return result;
       }
@@ -23,16 +26,16 @@ export class AuthService {
 
   async login(user: any) {
     // this "any" somehow allow both data structures to work: {user:{username,password}} and {username,password}
-    const payload = { username: user.username, password: user.password }; // TODO: have this password hashed
-    const userData = await this.validateUser(payload);
+    const data = { username: user.username, password: user.password }; // TODO: have this password hashed
+    const userData = await this.validateUser(data);
     if (userData) {
-      const data = {
+      const payload = {
         username: userData._doc.username,
-        id: userData._doc._id,
+        id: userData._doc._id.toString(),
       }
       return {
-        id: data.id,
-        access_token: this.jwtService.sign(data),
+        id: payload.id,
+        access_token: this.jwtService.sign(payload),
       };
     } else {
       throw new UnauthorizedException();

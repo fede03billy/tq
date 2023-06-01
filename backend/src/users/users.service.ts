@@ -14,7 +14,7 @@ export class UsersService {
     if (otherUser) {
       throw new NotAcceptableException();
     }
-    newUser.save();
+    await newUser.save();
     const login = await fetch('http://localhost:3000/auth/login', {
       method: 'POST',
       headers: {

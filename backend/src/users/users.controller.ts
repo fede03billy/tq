@@ -20,7 +20,7 @@ export class UsersController {
     return this.usersService.create(username, password);
   } // TODO: Add validation & hashing
 
-  // @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthGuard('jwt'))
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.usersService.findOne(id);

@@ -17,7 +17,7 @@ const User: React.FC = () => {
     try {
     fetch(`http://localhost:3000/users/${id}`,{
       headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('token')
+        'Authorization': 'Bearer ' + localStorage.getItem('tq_token')
       }
     })
       .then((response) => response.json())
