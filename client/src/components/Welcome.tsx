@@ -25,6 +25,8 @@ const Welcome: React.FC = () => {
     navigate(`/user/${id}`);
   }
 
+  // TODO: check for the token and redirect to user page in case the user is already logged in
+
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     if(passwordRef.current?.value !== confirmPasswordRef.current?.value){
