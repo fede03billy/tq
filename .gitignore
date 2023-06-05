@@ -26,6 +26,9 @@ yarn-error.log*
 backend/dist
 backend/node_modules
 
+# env vars
+backend/.env
+
 # Logs
 backend/logs
 backend/*.log
