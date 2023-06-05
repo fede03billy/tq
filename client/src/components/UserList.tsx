@@ -1,4 +1,5 @@
 // components/UserList.tsx
+// in this page there's a simple global list
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 

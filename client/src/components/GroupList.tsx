@@ -1,4 +1,5 @@
-// components/GroupList.tsx // TODO: actually build this component
+// components/GroupList.tsx
+// in this page the user can join or leave a group and see the leaderboard of the group.
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -17,6 +18,8 @@ const GroupList: React.FC = () => {
 //       .then((response) => response.json())
 //       .then((data) => setUsers(data));
 //   }, []);
+
+    // TODO: handle case without group name in the id
 
   return (
     <>

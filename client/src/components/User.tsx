@@ -1,6 +1,8 @@
 // components/User.tsx
+// In this page the user can see his username and his upcounts, then he can move to the Group page or the Leaderboard page.
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 interface User {
   id: string;
@@ -36,8 +38,10 @@ const User: React.FC = () => {
           <p>Upvotes: {user.upvotes}</p>
         </div>
       ) : (
-        <p>Loading...</p>
+        <p>Loading...</p> // TODO: make a loading component
       )}
+      <Link to={`/group/${user?.group}`}>Group</Link>
+      <Link to={`/users`}>Leaderboard</Link>
     </>
   );
 };
