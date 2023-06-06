@@ -33,7 +33,13 @@ export class UsersController {
   }
 
   @UseGuards(AuthGuard('jwt'))
-  @Put(':id/upvote')
+  @Get('groups/list')
+  groups() {
+    return this.usersService.findGroups();
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Put('upvote/:id')
   upvote(@Param('id') id: string) {
     return this.usersService.upvote(id);
   }

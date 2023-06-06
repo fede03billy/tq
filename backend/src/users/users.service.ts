@@ -56,6 +56,29 @@ export class UsersService {
     return this.userModel.find({ group });
   }
 
+  // Fetch all Groups
+  async findGroups(): Promise<{ groupName: string; count: number }[]> {
+    const users: User[] = await this.userModel.find();
+    const groupsMap: { [groupName: string]: number } = {};
+
+    for (const user of users) {
+      if (user.group) {
+        if (groupsMap[user.group]) {
+          groupsMap[user.group]++;
+        } else {
+          groupsMap[user.group] = 1;
+        }
+      }
+    }
+   
+    const groups: { groupName: string; count: number }[] = Object.entries(groupsMap).map(([groupName, count]) => ({
+      groupName,
+      count,
+    }));
+
+    return groups;
+  }
+
   // Increment Upvotes by Id
   async upvote(id: string): Promise<User> {
     return this.userModel.findByIdAndUpdate(
