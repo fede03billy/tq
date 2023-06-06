@@ -39,7 +39,7 @@ const User: React.FC = () => {
 			) : (
 				<p>Loading...</p> // TODO: make a loading component
 			)}
-			<Link to={`/group/${user?.group ? user.group : ""}`}>Group</Link>
+			<Link to={`/group${user?.group ? "/" + user.group : "s"}`}>Group</Link>
 			<Link to={`/users`}>Leaderboard</Link>
 		</>
 	);
