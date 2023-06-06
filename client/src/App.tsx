@@ -1,5 +1,4 @@
 // App.tsx
-import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Welcome from "./components/Welcome";
 import User from "./components/User";
