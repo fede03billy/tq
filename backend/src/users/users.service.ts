@@ -9,7 +9,6 @@ export class UsersService {
   // Create a User
   async create(username: string, password: string): Promise<{}> {
     const newUser = new this.userModel({ username, password});
-    // TODO: handle error for duplicate username
     const otherUser = await this.userModel.findOne({ username });
     if (otherUser) {
       throw new NotAcceptableException();
